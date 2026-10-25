@@ -12,6 +12,7 @@ jobs:
       -name: SSH to server
       -run: |
           echo "${{secrets.SSH_PRIVATE_KEY}}" &> ~/ssh_key
+          echo "${{secrets.KNOWN_HOSTS}}" &> ~/.ssh/known_hosts
           echo "yes" | ssh -i ~/ssh_key ${{secrets.SERVER_USERNAME}}@${{secrets.SERVER_HOST}}
           cd bms_monorepo 
           git pull 
