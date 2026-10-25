@@ -9,6 +9,7 @@ jobs:
 
     steps:
       - run: | 
+          mkdir -p ~/.ssh
           echo "${{secrets.SSH_PRIVATE_KEY}}" &> ~/ssh_key
           echo "${{secrets.KNOWN_HOSTS}}" &> ~/.ssh/known_hosts
           echo "yes" | ssh -i ~/ssh_key ${{secrets.SERVER_USERNAME}}@${{secrets.SERVER_HOST}}
@@ -19,5 +20,4 @@ jobs:
           pm2 restart fe-server
           pm2 restart http-server
           pm2 restart ws-server
-        
         
