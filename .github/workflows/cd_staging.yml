@@ -1,21 +1,24 @@
-name: Deploy to staging
-on:
-  push:
-    branches:
-      - "main"
-jobs:
-  redepoly_everything:
-    name: Deploying the frontend to the staging cluster
+on: [push]
 
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
     steps:
-      -name: SSH to server
-      -run: |
-        echo ${{secrets.SSH_PRIVATE_KEY}} &> ~/ssh_key
-        ssh -i ~/ssh_key ubuntu@20.2.136.203
-        cd bms_monorepo 
-        git pull 
-        pnpm install
-        pnpm run build
-        pm2 restart fe-server
-        pm2 restart http-server
-        pm2 restart ws-server
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Run and deploy
+        uses: appleboy/ssh-action@v0.1.9
+        with:
+          key: ${{secrets.SSH_PRIVATE_KEY}}
+          host: ${{secrets.SERVER_HOST}}
+          username: ${{secrets.SERVER_USERNAME}}
+          script: |
+            cd ${{ secrets.SERVER_PATH }}
+            git fetch --all
+            git pull 
+            pnpm install
+            pnpm run build
+            pm2 restart fe-server
+            pm2 restart http-server
+            pm2 restart ws-server
