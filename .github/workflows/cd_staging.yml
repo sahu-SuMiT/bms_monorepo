@@ -14,7 +14,7 @@ jobs:
           echo "${{secrets.SSH_PRIVATE_KEY}}" &> ~/ssh_key
           chmod 600 ~/ssh_key
           echo "${{secrets.KNOWN_HOSTS}}" &> ~/.ssh/known_hosts
-          ssh -i ~/ssh_key ubuntu@20.2.136.203 -t "cd bms_monorepo && git pull origin main && sudo -s && npm i -g pnpm && pnpm install && pnpm run build && pm2 restart fe-server && pm2 restart http-server && pm2 restart ws-server"
+          ssh -i ~/ssh_key ubuntu@20.2.136.203 -t "cd bms_monorepo && git pull origin main && source ~/.bashrc && npm i -g pnpm && pnpm install && pnpm run build && pm2 restart fe-server && pm2 restart http-server && pm2 restart ws-server"
            
           
           
