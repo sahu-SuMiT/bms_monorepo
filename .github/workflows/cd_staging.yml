@@ -15,7 +15,7 @@ jobs:
           chmod 600 ~/ssh_key
           echo "${{secrets.KNOWN_HOSTS}}" &> ~/.ssh/known_hosts
           ssh -i ~/ssh_key ubuntu@20.2.136.203
-          cd bms_monorepo 
+          cd /bms_monorepo 
           git pull 
           pnpm install
           pnpm run build
