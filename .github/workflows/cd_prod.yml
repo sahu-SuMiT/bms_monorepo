@@ -11,11 +11,12 @@ jobs:
       - run: | 
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
-          echo "${{secrets.SSH_PRIVATE_KEY}}" &> ~/ssh_key
+          echo "${{secrets.SSH_PRIVATE_KEY_PROD}}" &> ~/ssh_key
           chmod 600 ~/ssh_key
           echo "${{secrets.KNOWN_HOSTS}}" &> ~/.ssh/known_hosts
           ssh -i ~/ssh_key ubuntu@4.252.0.235 -t "cd bms_monorepo && git pull origin prod && export PATH=/home/ubuntu/.nvm/versions/node/v24.22.1/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin && npm i -g pnpm && pnpm install && pnpm run build && pm2 restart fe-server && pm2 restart http-server && pm2 restart ws-server"
            
+          
           
           
           
